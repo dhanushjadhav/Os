@@ -1,1 +1,89 @@
+ALGORITHM:
+Step 1: Start the program.
+Step 2: Declare the variables pid and i as integers.
+Step 3: Get the child id value using the system call fork ().
+Step 4: If child id value is less than zero then print "fork failed".
+Step 5: Else if child id value is equal to zero, it is the id value of the child and then start the child process to execute and perform Steps 7 & 8.
+Step 6: Else perform Step 9.
+Step 7: Use a for loop for almost five child processes to be called.
+Step 8: After execution of the for loop then print "child process ends".
+Step 9: Execute the system call wait () to make the parent to wait for the child process to get over.
+Step 10: Once the child processes are terminated, the parent terminates and hence prints "Parent process ends".
+Step 11: After both the parent and the child processes get terminated it execute the wait() system call to permanently get deleted from the OS.
+Step 12: Stop the program.
+SOURCE CODE:
 
+/* wait system call */
+
+#include <stdlib.h>
+
+#include <errno.h>
+
+#include<stdio.h>
+
+#include <unistd.h>
+
+#include <sys/types.h>
+
+#include <sys/wait.h>
+
+main()
+
+{
+
+pid_t pid;
+
+int rv;
+
+switch(pid=fork())
+
+{
+
+case-1:
+
+perror("fork");
+
+exit(1);
+
+case 0:
+
+printf("\n CHILD: This is the child process!\n");
+
+fflush(stdout);
+
+printf("\n CHILD: My PID is %d\n", getpid());
+
+printf("\n CHILD: My parent's PID is %d\n",getppid());
+
+printf("\n CHILD: Enter my exit status (make it small):\n ");
+
+printf("\n CHILD: I'm outta here!\n");
+
+scanf("%d", &rv);
+
+exit(rv);
+
+default:
+
+printf("\nPARENT: This is the parent process!\n");
+
+printf("\nPARENT: My PID is %d\n", getpid());
+
+fflush(stdout);
+
+wait(&rv);
+
+fflush(stdout);
+
+printf("\nPARENT: My child's PID is %d\n", pid);
+printf("\nPARENT: I'm now waiting for my child to exit()...\n");
+
+fflush(stdout);
+printf("\nPARENT:
+My child's exit
+%d\n", WEXITSTATUS(rv));
+
+printf("\nPARENT: I'm outta here!\n");
+}
+return (0);
+}
